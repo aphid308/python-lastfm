@@ -6,11 +6,14 @@ class Artist(object):
 
     def __init__(self, artist, api_key):
         self.payload = {'artist': artist, 'api_key': api_key, 'format': 'json'}
-
+    
+    def get(self, url=self.baseurl, params):
+        api_call = requests.get(url, params=params)
+        return api_call.json()
+    
     def get_events(self, limit=5):
         self.payload.update({'method': 'artist.getevents', 'limit': limit})
-        api_call = requests.get(self.baseurl, params=self.payload)
-        return api_call.json()
+        self.get(params=self.payload)
         
     @property
     def get_info(self):
