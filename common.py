@@ -53,4 +53,44 @@ class Artist(object):
     def get_toptags(self):
         self.payload.update({'method': 'artist.gettoptags'})
         return self.get()
+    
+    def get_toptracks(self, limit=5):
+        self.payload.update({'method': 'artist.gettoptracks'})
+        return self.get()
+
+
+class Album(object):
+    
+    def __init__(self, artist, album, api_key):
+        self.payload = {'artist': artist, 'album': album, 'api_key': api_key, 'format': 'json'}       
+
+    def get(self, url='http://ws.audioscrobbler.com/2.0/'):
+        api_call = requests.get(url, params=self.payload)
+        return api_call.json()
+
+    def get_buylinks(self, country):
+        self.payload.update({'method': 'album.getbuylinks', 'country': country})
+        return self.get()
+
+    def get_info(self, lang='eng', username=""):
+        self.payload.update({'method': 'album.getinfo'})
+        if username:
+            self.payload.update({'username': username})
+            return self.get()
+        else:
+            return self.get()
+    
+    def get_shouts(self, limit=10):
+        self.payload.update({'method': 'album.getshouts', 'limit': limit})
+        return self.get()
+
+    def get_usertags(self, user='RJ'):
+        self.payload.update({'method': 'album.gettags', 'user': user})
+        return self.get()
+
+    def get_toptags(self):
+        self.payload.update({'method': 'album.gettoptags'})
+        return self.get()
+
+
 
