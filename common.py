@@ -2,13 +2,12 @@ import requests
 
 
 class Artist(object):
-    baseurl = "http://ws.audioscrobbler.com/2.0/"
 
     def __init__(self, artist, api_key):
         self.payload = {'artist': artist, 'api_key': api_key, 'format': 'json'}
     
-    def get(self, url=self.baseurl, params=self.payload):
-        api_call = requests.get(url, params=params)
+    def get(self, url='http://ws.audioscrobbler.com/2.0/'):
+        api_call = requests.get(url, params=self.payload)
         return api_call.json()
     
     def get_events(self, limit=5):
@@ -20,7 +19,7 @@ class Artist(object):
         self.payload.update({'method': 'artist.getinfo'})
         self.get()
 
-    def get_passed_events(self, limit=5):
+    def get_passedevents(self, limit=5):
         self.payload.update({'method': 'artist.getpastevents', 'limit': limit})
         return self.get()
 
